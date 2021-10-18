@@ -32,6 +32,29 @@ public class Bag {
     private char bagName;
 
     /**
+     * Constructor for black bags, is called when an ArrayList of pebble weights is specified as a parameter
+     * @param pebbles the ArrayList of pebble weights
+     * @param fileLocation the string of the file location of the pebble weights
+     */
+    public Bag(char name, ArrayList<Integer> pebbles, String fileLocation){
+        this.bagName = name;
+        this.pebbles = pebbles;
+        this.type = BagType.BLACK;
+        this.fileLocation = fileLocation;
+    }
+
+    /**
+     * Constructor for a white bag, is called when no pebble ArrayList is specified (empty bag)
+     * @param name the char name of the bag
+     */
+    public Bag(char name){
+        this.bagName = name;
+        this.pebbles = new ArrayList<Integer>();
+        this.type =  BagType.WHITE;
+        // TODO: Create csv file to store bag contents?
+    }
+
+    /**
      * Checks bag capacity
      *
      * @return integer containing bag capacity
