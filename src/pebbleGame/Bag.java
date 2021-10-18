@@ -4,31 +4,16 @@ import java.util.ArrayList;
 
 public class Bag {
     /**
-     * Type of Bag
+     * Enum class for bag types
      */
     public enum BagType{
         WHITE,
         BLACK
     }
 
-    /**
-     * This bag's type
-     */
     private BagType type;
-
-    /**
-     * The bag's provided fileLocation
-     */
     private String fileLocation;
-
-    /**
-     * Arraylist of weights of pebbles
-     */
     private ArrayList<Integer> pebbles;
-
-    /**
-     * Bag name (A,B,C; X,Y,Z)
-     */
     private char bagName;
 
     /**
@@ -55,8 +40,7 @@ public class Bag {
     }
 
     /**
-     * Checks bag capacity
-     *
+     * Returns how many pebbles are in a bag.
      * @return integer containing bag capacity
      */
     public int checkBagCapacity(){
@@ -65,9 +49,7 @@ public class Bag {
     }
 
     /**
-     * Only on WHITE bags
-     *
-     * Adds a pebble of specified weight
+     * Only on WHITE bags - Adds a pebble of specified weight
      */
     public void addPebble() throws PebbleErrors.IllegalBagTypeException {
         if(type == BagType.BLACK){
@@ -77,9 +59,7 @@ public class Bag {
     }
 
     /**
-     * Only on BLACK bags
-     *
-     * removes a pebble from the bag with a specified weight
+     * Only on BLACK bags - removes a pebble from the bag with a specified weight
      */
     public void removePebble(int weight) throws PebbleErrors.IllegalBagTypeException {
         if(type == BagType.WHITE){
@@ -89,9 +69,7 @@ public class Bag {
     }
 
     /**
-     * Only on BLACK bags
-     *
-     * Swaps contents of this bag with bag b
+     * Only on BLACK bags - Swaps contents of this bag with bag b
      * @param b bag to swap content with
      */
     public void swapContents(Bag b) throws PebbleErrors.IllegalBagTypeException {
@@ -101,7 +79,9 @@ public class Bag {
 
     }
 
-
+    /**
+     * Get/Set methods
+     */
 
     public BagType getType() {
         return type;

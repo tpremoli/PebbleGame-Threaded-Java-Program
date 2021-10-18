@@ -60,8 +60,8 @@ public class PebbleGame {
     /**
      * Exits game when 'E' is pressed on the keyboard
      */
-    public static void exitGame(){
-
+    public static void exitGame() {
+        // TODO: Interrupt when E is pressed and exit program
     }
 
 
@@ -89,8 +89,7 @@ public class PebbleGame {
         }
 
         /**
-         * Runs a method getting rid of the pebble with the specified weight
-         * and picking a new one from a black bag
+         * Runs a method getting rid of the pebble with the specified weight and picking a new one from a black bag
          * (terminates program if total weight = 100)
          *
          * MUST BE ATOMIC
@@ -99,9 +98,7 @@ public class PebbleGame {
          * @return bag where pebble was drawn from
          */
         public char swapPebble(int pebbleWeight) {
-
-
-            return 'x';
+            //TODO: swapPebble method
         }
 
         /**
@@ -115,7 +112,7 @@ public class PebbleGame {
 
         /**
          * Constructor for player object,
-         *
+         * <p>
          * Draw 10 pebbles from random bags and put into pebbles arraylist
          */
         public Player() {
