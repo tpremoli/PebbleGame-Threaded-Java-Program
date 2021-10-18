@@ -13,32 +13,35 @@ public class PebbleGame {
 
 
     public static void main(String[] args) {
-        System.out.println(
-                "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
-                "You will be asked to enter the number of players \r\n" +
-                "and then you will be asked for the location of three files containing\r\n" +
-                "integer values separated by commas, to determine the pebble weights \r\n" +
-                "These values must be positive.\r\n" +
-                "The game will then be simulated, and output written to files in this directory\r\n");
+        while (true) { // Will change for interrupt
+            System.out.println(
+                    "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
+                            "You will be asked to enter the number of players \r\n" +
+                            "and then you will be asked for the location of three files containing\r\n" +
+                            "integer values separated by commas, to determine the pebble weights \r\n" +
+                            "These values must be positive.\r\n" +
+                            "The game will then be simulated, and output written to files in this directory\r\n" +
+                            "\r\n" +
+                            "\r\n" +
+                            "Please input number of players:");
+
+
+            try {
+                int playerCount = Integer.parseInt(reader.nextLine());
+                if (playerCount < 1)
+                    throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
+            } catch (NumberFormatException e) {
+                System.out.println("Input not an integer!");
+            } catch (PebbleErrors.IllegalPlayerNumberException e) {
+                System.out.println(e);
+            }
+
+            generateBags();
+
+            //players must draw from bags
+
+        }
     }
-
-
-    /**
-     * Arraylist of Players
-     */
-    public static ArrayList<Player> players;
-
-    /**
-     * Arraylist of Bags
-     */
-    public static ArrayList<Bag> bags;
-
-    /**
-     * Last bag drawn from
-     */
-    public static char lastBag;
-
-
 
     /**
      * generate 3 white (empty, named A, B, C) and 3 black bags (named X, Y, Z),
