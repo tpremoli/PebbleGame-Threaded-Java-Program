@@ -167,7 +167,7 @@ public class PebbleGame {
          *
          * @throws IOException
          */
-        public void writeDataToFile() throws IOException{
+        public void writeDataToFile() throws IOException {
 
         }
 
