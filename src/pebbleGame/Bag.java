@@ -83,7 +83,6 @@ public class Bag {
     public BagType getType() {
         return type;
     }
-
     public void setType(BagType type) {
         this.type = type;
     }
@@ -91,7 +90,6 @@ public class Bag {
     public String getFileLocation() {
         return fileLocation;
     }
-
     public void setFileLocation(String fileLocation) {
         this.fileLocation = fileLocation;
     }
@@ -99,15 +97,12 @@ public class Bag {
     public ArrayList<Integer> getPebbles() {
         return pebbles;
     }
-
     public void setPebbles(ArrayList<Integer> pebbles) {
         this.pebbles = pebbles;
     }
-
     public char getBagName() {
         return bagName;
     }
-
     public void setBagName(char bagName) {
         this.bagName = bagName;
     }
