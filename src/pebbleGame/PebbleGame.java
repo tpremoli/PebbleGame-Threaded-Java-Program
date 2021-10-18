@@ -1,9 +1,15 @@
-package com.company;
+package pebbleGame;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class PebbleGame {
+
+    public static ArrayList<Player> players;
+    public static HashMap<Character, Bag> bags;
+    public static char lastBag;
+
+    static Scanner reader = new Scanner(System.in);
 
 
     public static void main(String[] args) {
@@ -40,6 +46,29 @@ public class PebbleGame {
      */
     public static void generateBags() {
 
+        Bag a = new Bag('A');
+        Bag b = new Bag('B');
+        Bag c = new Bag('C');
+
+        System.out.println("Please enter location of bag number 0 to load:");
+        String xLoc = reader.nextLine();
+        Bag x = createBlackBag('X', xLoc);
+
+        System.out.println("Please enter location of bag number 1 to load:");
+        String yLoc = reader.nextLine();
+        Bag y = createBlackBag('Y', yLoc);
+
+        System.out.println("Please enter location of bag number 2 to load:");
+        String zLoc = reader.nextLine();
+        Bag z = createBlackBag('Z', zLoc);
+
+        bags.put('A',a);
+        bags.put('B',b);
+        bags.put('C',c);
+        bags.put('X',x);
+        bags.put('Y',y);
+        bags.put('Z',z);
+
     }
 
     /**
@@ -48,13 +77,52 @@ public class PebbleGame {
      *
      * @param fileLocation
      */
-    public static void createBlackBag(String fileLocation)
-            throws  PebbleErrors.IllegalFileException,
-                    PebbleErrors.NotEnoughPebblesInFileException,
-                    PebbleErrors.NegativePebbleWeightException,
-                    IOException {
+    public static Bag createBlackBag(char name, String fileLocation) {
+
+        try {
+            FileReader fr = new FileReader(fileLocation);
+            BufferedReader br = new BufferedReader(fr);
+
+            ArrayList<String> weights = new ArrayList<String>(Arrays.asList(br.readLine().split(",")));
+
+            if (weights.size() < players.size() * 11) {
+                throw new PebbleErrors.NotEnoughPebblesInFileException(
+                        "File, " + fileLocation + " did not have enough pebbles, please enter a valid file.");
+            }
+
+            ArrayList<Integer> pebbles = new ArrayList<Integer>(weights.size());
 
 
+            for (String w :
+                    weights) {
+                int pebble = Integer.parseInt(w);
+                if (pebble < 1) {
+                    throw new PebbleErrors.NegativePebbleWeightException(
+                            "File, " + fileLocation + " was not formatted correctly, make sure all pebble sizes are strictly positive.");
+                }
+
+                pebbles.add(pebble);
+            }
+
+
+            Bag b = new Bag(name, pebbles, fileLocation);
+            return b;
+
+        } catch (IOException e) {
+            System.out.println("File, " + fileLocation + " not found, please enter a valid file path.");
+            // System.out.println(e);
+        } catch (NumberFormatException e) {
+            System.out.println("File, " + fileLocation + " was not formatted correctly, please enter a valid file " +
+                    "format.");
+            // System.out.println(e);
+        } catch (PebbleErrors.NotEnoughPebblesInFileException e) {
+            System.out.println(e);
+        } catch (PebbleErrors.NegativePebbleWeightException e) {
+            System.out.println(e);
+        }
+
+        fileLocation = reader.nextLine();
+        return createBlackBag(name, fileLocation);
     }
 
     /**
