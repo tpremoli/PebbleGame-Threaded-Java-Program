@@ -67,16 +67,7 @@ public class PebbleGame {
 
     class Player implements Runnable {
 
-
-        /**
-         * Array of pebbles the player is holding
-         */
         private int[] pebbles = new int[10];
-
-
-        /**
-         * Location of file output for this player
-         */
         private String outputFile;
 
 
@@ -91,7 +82,6 @@ public class PebbleGame {
         /**
          * Runs a method getting rid of the pebble with the specified weight and picking a new one from a black bag
          * (terminates program if total weight = 100)
-         *
          * MUST BE ATOMIC
          *
          * @param pebbleWeight of pebble to discard

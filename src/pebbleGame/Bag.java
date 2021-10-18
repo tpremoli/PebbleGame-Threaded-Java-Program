@@ -1,8 +1,9 @@
-package com.company;
+package pebbleGame;
 
 import java.util.ArrayList;
 
 public class Bag {
+
     /**
      * Enum class for bag types
      */
