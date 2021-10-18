@@ -45,8 +45,8 @@ public class Bag {
      * @return integer containing bag capacity
      */
     public int checkBagCapacity(){
-
-        return 0;
+        int capacity = pebbles.size();
+        return capacity;
     }
 
     /**
@@ -90,14 +90,12 @@ public class Bag {
     public void setType(BagType type) {
         this.type = type;
     }
-
     public String getFileLocation() {
         return fileLocation;
     }
     public void setFileLocation(String fileLocation) {
         this.fileLocation = fileLocation;
     }
-
     public ArrayList<Integer> getPebbles() {
         return pebbles;
     }
