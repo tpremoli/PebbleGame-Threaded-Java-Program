@@ -146,8 +146,13 @@ public class PebbleGame {
          * @return Returns total pebble weight
          */
         public int getTotalPebbleWeight() {
+            int sum = 0;
+            for (int p :
+                    pebbles) {
+                sum += p;
+            }
 
-            return 0;
+            return sum;
         }
 
         /**
