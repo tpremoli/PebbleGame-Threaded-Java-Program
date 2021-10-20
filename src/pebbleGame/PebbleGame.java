@@ -62,12 +62,37 @@ public class PebbleGame {
         return null;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
 
+    public void setPlayers(ArrayList<Player> players) {
+        this.players = players;
+    }
 
+    public int getPlayerCount() {
+        return playerCount;
+    }
 
+    public void setPlayerCount(int playerCount) {
+        this.playerCount = playerCount;
+    }
 
+    public HashMap<Character, Bag> getBags() {
+        return bags;
+    }
 
+    public void setBags(HashMap<Character, Bag> bags) {
+        this.bags = bags;
+    }
 
+    public char getLastBag() {
+        return lastBag;
+    }
+
+    public void setLastBag(char lastBag) {
+        this.lastBag = lastBag;
+    }
 
     class Player implements Runnable {
 

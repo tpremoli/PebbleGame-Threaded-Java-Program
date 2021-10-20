@@ -21,15 +21,15 @@ public class Main {
 
 
             try {
-                pg.setPlayerCount() = Integer.parseInt(reader.nextLine());
+                pg.setPlayerCount(Integer.parseInt(reader.nextLine()));
                 if (pg.getPlayerCount() < 1)
                     throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
 
-                pg.generateBags();
+                generateBags();
 
 
-                for (int i = 0; i < playerCount; i++) {
-                    pg.players.add();
+                for (int i = 0; i < pg.getPlayerCount(); i++) {
+                    pg.getPlayers().add(pg.new Player());
                 }
 
                 //players must draw from bags
@@ -65,12 +65,12 @@ public class Main {
         String zLoc = reader.nextLine();
         Bag z = pg.createBlackBag('Z', zLoc);
 
-        bags.put('A',a);
-        bags.put('B',b);
-        bags.put('C',c);
-        bags.put('X',x);
-        bags.put('Y',y);
-        bags.put('Z',z);
+        pg.getBags().put('A',a);
+        pg.getBags().put('B',b);
+        pg.getBags().put('C',c);
+        pg.getBags().put('X',x);
+        pg.getBags().put('Y',y);
+        pg.getBags().put('Z',z);
 
     }
 
