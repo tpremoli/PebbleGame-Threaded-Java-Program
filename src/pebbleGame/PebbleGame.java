@@ -128,9 +128,66 @@ public class PebbleGame {
          * @param pebbleWeight of pebble to discard
          * @return bag where pebble was drawn from
          */
-        public char swapPebble(int pebbleWeight) {
-            //TODO: swapPebble method
+        public void swapPebble(int pebbleWeight) {
+            // Get new pebble
+            char lastBagChar = lastBag;
+
+            // Getting random bag to get a new pebble from
+            int randomBagSelected = new Random().nextInt(2);
+            char newBagChar = ' ';
+
+            if (randomBagSelected == 0) {
+                newBagChar = 'X';
+            } else if (randomBagSelected == 1) {
+                newBagChar = 'Y';
+            } else {
+                newBagChar = 'Z';
+            }
+
+            Bag newBag = bags.get(newBagChar);
+
+            // Get new pebble
+            int newPebble = 0;
+            try {
+                newPebble = newBag.takeRandomPebble();
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                e.printStackTrace();
+            }
+
+            // Swap old pebble with new pebble
+            for (int i = 0; i < pebbles.length - 1; i++) {
+                if (pebbles[i] == pebbleWeight) {
+                    pebbles[i] = newPebble;
+                }
+            }
+
+            // Add removed pebble to a white bag, getting corresponding white bag first
+
+            Character whiteBagChar;
+
+            if (lastBagChar == 'X') {
+                whiteBagChar = 'A';
+            } else if (lastBagChar == 'Y') {
+                whiteBagChar = 'B';
+            } else if (lastBagChar == 'Z') {
+                whiteBagChar = 'C';
+            } else {
+                throw new IllegalArgumentException("The character stored in newBag attribute does not correspond to a " +
+                        "valid black bag.");
+            }
+
+            Bag whiteBag = bags.get(whiteBagChar);
+
+            try {
+                whiteBag.addPebble(pebbleWeight); //adding weight of discarded pebble to white bag
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                e.printStackTrace();
+            }
+
+            lastBag = newBag.getBagName();
+            // TODO: Method to see if some has won
         }
+
 
         /**
          * Writes userdata to file
