@@ -1,5 +1,6 @@
 package pebbleGame;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -52,25 +53,36 @@ public class Main {
         Bag a = new Bag('A');
         Bag b = new Bag('B');
         Bag c = new Bag('C');
+        Bag x = null;
+        Bag y = null;
+        Bag z = null;
 
-        System.out.println("Please enter location of bag number 0 to load:");
-        String xLoc = reader.nextLine();
-        Bag x = pg.createBlackBag('X', xLoc);
+        while (x == null) {
+            System.out.println("Please enter location of bag number 0 to load:");
+            String xLoc = reader.nextLine();
+            x = pg.createBlackBag('X', xLoc);
+        }
 
-        System.out.println("Please enter location of bag number 1 to load:");
-        String yLoc = reader.nextLine();
-        Bag y = pg.createBlackBag('Y', yLoc);
+        while (y == null) {
+            System.out.println("Please enter location of bag number 1 to load:");
+            String yLoc = reader.nextLine();
+            y = pg.createBlackBag('Y', yLoc);
+        }
 
-        System.out.println("Please enter location of bag number 2 to load:");
-        String zLoc = reader.nextLine();
-        Bag z = pg.createBlackBag('Z', zLoc);
+        while (z == null) {
+            System.out.println("Please enter location of bag number 2 to load:");
+            String zLoc = reader.nextLine();
+            z = pg.createBlackBag('Z', zLoc);
+        }
 
-        pg.getBags().put('A',a);
-        pg.getBags().put('B',b);
-        pg.getBags().put('C',c);
-        pg.getBags().put('X',x);
-        pg.getBags().put('Y',y);
-        pg.getBags().put('Z',z);
+        HashMap<Character, Bag> bags = pg.getBags();
+
+        bags.put('A', a);
+        bags.put('B', b);
+        bags.put('C', c);
+        bags.put('X', x);
+        bags.put('Y', y);
+        bags.put('Z', z);
 
     }
 

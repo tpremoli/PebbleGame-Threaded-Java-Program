@@ -31,7 +31,6 @@ public class PebbleGame {
 
             ArrayList<Integer> pebbles = new ArrayList<Integer>(weights.size());
 
-
             for (String w :
                     weights) {
                 int pebble = Integer.parseInt(w);
@@ -42,7 +41,6 @@ public class PebbleGame {
 
                 pebbles.add(pebble);
             }
-
 
             Bag b = new Bag(name, pebbles, fileLocation);
             return b;
