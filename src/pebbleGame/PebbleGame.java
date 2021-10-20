@@ -5,74 +5,10 @@ import java.util.*;
 
 public class PebbleGame {
 
-    public static ArrayList<Player> players;
-    public static HashMap<Character, Bag> bags;
-    public static char lastBag;
-
-    static Scanner reader = new Scanner(System.in);
-
-
-    public static void main(String[] args) {
-        while (true) { // Will change for interrupt
-            System.out.println(
-                    "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
-                            "You will be asked to enter the number of players \r\n" +
-                            "and then you will be asked for the location of three files containing\r\n" +
-                            "integer values separated by commas, to determine the pebble weights \r\n" +
-                            "These values must be positive.\r\n" +
-                            "The game will then be simulated, and output written to files in this directory\r\n" +
-                            "\r\n" +
-                            "\r\n" +
-                            "Please input number of players:");
-
-
-            try {
-                int playerCount = Integer.parseInt(reader.nextLine());
-                if (playerCount < 1)
-                    throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
-            } catch (NumberFormatException e) {
-                System.out.println("Input not an integer!");
-            } catch (PebbleErrors.IllegalPlayerNumberException e) {
-                System.out.println(e);
-            }
-
-            generateBags();
-
-            //players must draw from bags
-
-        }
-    }
-
-    /**
-     * generate 3 white (empty, named A, B, C) and 3 black bags (named X, Y, Z),
-     * calls createBlackBag method to load values from a bag file and call the black bag constructor.
-     */
-    public static void generateBags() {
-
-        Bag a = new Bag('A');
-        Bag b = new Bag('B');
-        Bag c = new Bag('C');
-
-        System.out.println("Please enter location of bag number 0 to load:");
-        String xLoc = reader.nextLine();
-        Bag x = createBlackBag('X', xLoc);
-
-        System.out.println("Please enter location of bag number 1 to load:");
-        String yLoc = reader.nextLine();
-        Bag y = createBlackBag('Y', yLoc);
-
-        System.out.println("Please enter location of bag number 2 to load:");
-        String zLoc = reader.nextLine();
-        Bag z = createBlackBag('Z', zLoc);
-
-        bags.put('A',a);
-        bags.put('B',b);
-        bags.put('C',c);
-        bags.put('X',x);
-        bags.put('Y',y);
-        bags.put('Z',z);
-
-    }
+    private ArrayList<Player> players;
+    private int playerCount;
+    private HashMap<Character, Bag> bags;
+    private char lastBag;
 
     /**
      * Reads bag file, loads values to a temporary arrayList and calls the
@@ -80,7 +16,7 @@ public class PebbleGame {
      *
      * @param fileLocation
      */
-    public static Bag createBlackBag(char name, String fileLocation) {
+    public Bag createBlackBag(char name, String fileLocation) {
 
         try {
             FileReader fr = new FileReader(fileLocation);
@@ -88,7 +24,7 @@ public class PebbleGame {
 
             ArrayList<String> weights = new ArrayList<String>(Arrays.asList(br.readLine().split(",")));
 
-            if (weights.size() < players.size() * 11) {
+            if (weights.size() < playerCount * 11) {
                 throw new PebbleErrors.NotEnoughPebblesInFileException(
                         "File, " + fileLocation + " did not have enough pebbles, please enter a valid file.");
             }
@@ -123,23 +59,29 @@ public class PebbleGame {
         } catch (PebbleErrors.NegativePebbleWeightException e) {
             System.out.println(e);
         }
-
-        fileLocation = reader.nextLine();
-        return createBlackBag(name, fileLocation);
+        return null;
     }
 
-    /**
-     * Exits game when 'E' is pressed on the keyboard
-     */
-    public static void exitGame() {
-        // TODO: Interrupt when E is pressed and exit program
-    }
+
+
+
+
+
 
 
     class Player implements Runnable {
 
         private int[] pebbles = new int[10];
         private String outputFile;
+
+        /**
+         * Constructor for player object,
+         * <p>
+         * Draw 10 pebbles from random bags and put into pebbles arraylist
+         */
+        public Player() {
+
+        }
 
 
         /**
@@ -176,14 +118,6 @@ public class PebbleGame {
 
         }
 
-        /**
-         * Constructor for player object,
-         * <p>
-         * Draw 10 pebbles from random bags and put into pebbles arraylist
-         */
-        public Player() {
-
-        }
 
         @Override
         public void run() {
