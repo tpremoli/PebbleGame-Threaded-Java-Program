@@ -126,7 +126,6 @@ public class PebbleGame {
          * MUST BE ATOMIC
          *
          * @param pebbleWeight of pebble to discard
-         * @return bag where pebble was drawn from
          */
         public void swapPebble(int pebbleWeight) {
             // Get new pebble

@@ -57,6 +57,7 @@ public class Main {
         Bag y = null;
         Bag z = null;
 
+        // will run until createBlackBag executes successfully
         while (x == null) {
             System.out.println("Please enter location of bag number 0 to load:");
             String xLoc = reader.nextLine();
