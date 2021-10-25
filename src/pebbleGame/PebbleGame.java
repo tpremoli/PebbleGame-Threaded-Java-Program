@@ -94,7 +94,8 @@ public class PebbleGame {
 
     class Player implements Runnable {
 
-        private int[] pebbles = new int[10];
+        private int playerID;
+        private int[] pebbles;
         private String outputFile;
 
         /**
@@ -102,10 +103,47 @@ public class PebbleGame {
          * <p>
          * Draw 10 pebbles from random bags and put into pebbles arraylist
          */
-        public Player() {
+        public Player(int playerID) throws PebbleErrors.IllegalBagTypeException, IOException {
+            this.playerID = playerID;
+            this.pebbles = new int[10];
+
+            // Creating output file, writing pebbles to it using writeDataToFile()
+            this.outputFile = "Player " + playerID + ".txt";
+            //TODO: verify location of output file
+
+            // Getting 10 pebbles from  a random bag
+            Bag bagToDrawFrom = getRandomBlackBag();
+            for (int i = 0; i < 10; i++) {
+                int newPebble = bagToDrawFrom.takeRandomPebble();
+                pebbles[i] = newPebble;
+            }
+
+            this.initialWrite(bagToDrawFrom.getBagName());
 
         }
 
+        /**
+         * Returns a random black bag
+         *
+         * @return chosenBag - The chosen black bag.
+         */
+        public Bag getRandomBlackBag() {
+            int index = new Random().nextInt(3);
+            char bagChar = ' ';
+            switch (index) {
+                case 0:
+                    bagChar = 'X';
+                    break;
+                case 1:
+                    bagChar = 'Y';
+                    break;
+                case 2:
+                    bagChar = 'Z';
+                    break;
+            }
+            Bag chosenBag = bags.get(bagChar);
+            return chosenBag;
+        }
 
         /**
          * @return Returns total pebble weight
