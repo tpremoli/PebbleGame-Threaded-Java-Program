@@ -60,7 +60,7 @@ public class Bag {
         if (type == BagType.BLACK) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run addPebble from BLACK bag");
         }
-
+        this.pebbles.add(weight);
     }
 
     /**
@@ -80,17 +80,8 @@ public class Bag {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run takeRandomPebble from WHITE bag");
         }
 
-
         if (pebbles.size() == 0) {
-            char bagSwap = ' ';
-            if (bagName == 'X') {
-                bagSwap = 'A';
-            } else if (bagName == 'Y') {
-                bagSwap = 'B';
-            } else {
-                bagSwap = 'C';
-            }
-
+            char bagSwap = getCounterpart();
             this.swapContents(bagSwap);
         }
 
@@ -99,6 +90,26 @@ public class Bag {
         pebbles.remove(pebble);
 
         return pebble;
+    }
+
+    public char getCounterpart() throws PebbleErrors.IllegalBagTypeException {
+        switch (bagName) {
+            case 'X':
+                return 'A';
+            case 'Y':
+                return 'B';
+            case 'Z':
+                return 'C';
+            case 'A':
+                return 'X';
+            case 'B':
+                return 'Y';
+            case 'C':
+                return 'Z';
+            default:
+                throw new PebbleErrors.IllegalBagTypeException("Error in finding bag counterpart!");
+        }
+
     }
 
     /**
