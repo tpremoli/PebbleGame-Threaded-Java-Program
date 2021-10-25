@@ -187,9 +187,8 @@ public class PebbleGame {
             // TODO: Method to see if some has won
         }
 
-
         /**
-         * Writes userdata to file
+         * Writes a user's pebble array to file.
          *
          * @throws IOException
          */

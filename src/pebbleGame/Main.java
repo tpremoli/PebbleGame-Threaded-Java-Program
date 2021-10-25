@@ -9,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         while (true) { // Will change for interrupt
+            //TODO: Add interrupts
             System.out.println(
                     "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
                             "You will be asked to enter the number of players \r\n" +
