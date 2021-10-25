@@ -8,7 +8,7 @@ public class PebbleGame {
     private ArrayList<Player> players;
     private int playerCount;
     private HashMap<Character, Bag> bags;
-    private char lastBag;
+    private Bag lastBag;
 
     /**
      * Reads bag file, loads values to a temporary arrayList and calls the
@@ -84,11 +84,11 @@ public class PebbleGame {
         this.bags = bags;
     }
 
-    public char getLastBag() {
+    public Bag getLastBag() {
         return lastBag;
     }
 
-    public void setLastBag(char lastBag) {
+    public void setLastBag(Bag lastBag) {
         this.lastBag = lastBag;
     }
 
@@ -185,6 +185,17 @@ public class PebbleGame {
 
             lastBag = newBag.getBagName();
             // TODO: Method to see if some has won
+
+            this.writeDrawToFile(pebbleWeight, lastBag.getBagName());
+
+            /*
+                player1 has drawn a 17 from bag Y
+                    player1 hand is 1, 2, 45, 6, 7, 8, 56, 23, 12, 17
+
+                player1 has discarded a 45 to bag B
+                    player1 hand is 1, 2, 6, 7, 8, 56, 23, 12, 17
+           */
+
         }
 
         /**
@@ -241,10 +252,10 @@ public class PebbleGame {
 
 
 
-        @Override
-        public void run() {
+    @Override
+    public void run() {
 
-        }
     }
+}
 
 }

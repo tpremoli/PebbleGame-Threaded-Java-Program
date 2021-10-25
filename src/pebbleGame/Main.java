@@ -1,6 +1,7 @@
 package pebbleGame;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
