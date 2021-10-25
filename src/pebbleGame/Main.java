@@ -32,7 +32,7 @@ public class Main {
 
 
                 for (int i = 0; i < pg.getPlayerCount(); i++) {
-                    pg.getPlayers().add(pg.new Player());
+                    pg.getPlayers().add(pg.new Player(i));
                 }
 
                 //players must draw from bags
@@ -40,7 +40,9 @@ public class Main {
             } catch (NumberFormatException e) {
                 System.out.println("Input not an integer!");
             } catch (PebbleErrors.IllegalPlayerNumberException e) {
-                System.out.println(e);
+                e.printStackTrace();
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                e.printStackTrace();
             }
         }
 
