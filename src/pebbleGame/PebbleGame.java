@@ -193,9 +193,53 @@ public class PebbleGame {
          *
          * @throws IOException
          */
-        public void writeDataToFile() throws IOException {
-
+        public void writePebblesToFile(FileWriter writer) throws IOException {
+            String pebblesString = pebbles.toString()
+                    .replace("[", "")
+                    .replace("]", "");
+            writer.write("\tPlayer " + playerID + " hand is " + pebblesString);
+            writer.close();
         }
+
+        /**
+         * Logs a user's discard to their file.
+         *
+         * @param discardedPebble The weight of the discarded pebble.
+         * @param bag The bag that the pebble was discarded to.
+         * @throws IOException
+         */
+        public void writeDiscardToFile(int discardedPebble, char bag) throws IOException {
+            FileWriter writer = new FileWriter(this.outputFile, true);
+            writer.write("Player "+this.playerID+" has discarded a "+discardedPebble+" to bag "+bag+"\r\n");
+            writePebblesToFile(writer);
+        }
+
+        /**
+         * Logs a user's draw to their file.
+         *
+         * @param drawnPebble The weight of the drawn pebble.
+         * @param bag The character of the bag that has been drawn from.
+         * @throws IOException
+         */
+        public void writeDrawToFile(int drawnPebble, char bag) throws IOException {
+            FileWriter writer = new FileWriter(this.outputFile, true);
+            writer.write("Player "+this.playerID+" has drawn a "+drawnPebble+" from bag "+bag+"\r\n");
+            writePebblesToFile(writer);
+        }
+
+        // TODO: Create file?
+        /**
+         * Create player file, write initial pebble array to file.
+         *
+         * @param initialBag The bag which as initially drawn from
+         * @throws IOException
+         */
+        public void initialWrite(char initialBag) throws IOException {
+            FileWriter writer = new FileWriter(this.outputFile, true);
+            writer.write("Player has drawn 10 pebbles from " + initialBag + "\r\n");
+            writePebblesToFile(writer);
+        }
+
 
 
         @Override
