@@ -92,7 +92,7 @@ public class Bag {
 
         int newPebbleIndex = new Random().nextInt(pebbles.size());
         int pebble = pebbles.get(newPebbleIndex);
-        pebbles.remove(pebble);
+        pebbles.remove(Integer.valueOf(pebble));
 
         return pebble;
     }

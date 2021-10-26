@@ -1,11 +1,12 @@
 package pebbleGame;
 
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class PebbleGame {
 
-    private ArrayList<Player> players;
+    private ArrayList<Thread> players;
     private int playerCount;
     private HashMap<Character, Bag> bags;
     private Bag lastBag;
@@ -58,18 +59,18 @@ public class PebbleGame {
                     "format.");
             // System.out.println(e);
         } catch (PebbleErrors.NotEnoughPebblesInFileException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } catch (PebbleErrors.NegativePebbleWeightException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
 
-    public ArrayList<Player> getPlayers() {
+    public ArrayList<Thread> getPlayers() {
         return players;
     }
 
-    public void setPlayers(ArrayList<Player> players) {
+    public void setPlayers(ArrayList<Thread> players) {
         this.players = players;
     }
 
@@ -97,7 +98,7 @@ public class PebbleGame {
         this.lastBag = lastBag;
     }
 
-    class Player implements Runnable {
+    class Player extends Thread {
 
         private int playerID;
         private int[] pebbles;
@@ -124,6 +125,8 @@ public class PebbleGame {
             }
 
             this.initialWrite(bagToDrawFrom.getBagName());
+
+
 
         }
 
@@ -270,7 +273,13 @@ public class PebbleGame {
             writePebblesToFile(writer);
         }
 
+        public int[] getPebbles() {
+            return pebbles;
+        }
 
+        public void setPebbles(int[] pebbles) {
+            this.pebbles = pebbles;
+        }
 
     @Override
     public void run() {

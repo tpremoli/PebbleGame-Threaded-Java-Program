@@ -1,15 +1,13 @@
 package pebbleGame;
 
-import java.util.HashMap;
-import java.util.Random;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class Main {
     static Scanner reader = new Scanner(System.in);
     public static PebbleGame pg = new PebbleGame();
 
     public static void main(String[] args) {
-        while (true) { // Will change for interrupt
             //TODO: Add interrupts
             System.out.println(
                     "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
@@ -17,13 +15,12 @@ public class Main {
                             "and then you will be asked for the location of three files containing\r\n" +
                             "integer values separated by commas, to determine the pebble weights \r\n" +
                             "These values must be positive.\r\n" +
-                            "The game will then be simulated, and output written to files in this directory\r\n" +
-                            "\r\n" +
-                            "\r\n" +
-                            "Please input number of players:");
+                            "The game will then be simulated, and output written to files in this directory\r\n");
 
-
+        while (true) { // Will change for interrupt
             try {
+                System.out.println("Please input number of players:");
+
                 pg.setPlayerCount(Integer.parseInt(reader.nextLine()));
                 if (pg.getPlayerCount() < 1)
                     throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
@@ -35,7 +32,23 @@ public class Main {
                     pg.getPlayers().add(pg.new Player(i));
                 }
 
-                //players must draw from bags
+                //players are done being made
+
+                for (Thread p : pg.getPlayers()) {
+                    p.start();
+                }
+
+// Testing that bag draws are behaving as expected
+//                for (char b:
+//                        new char[]{'A','B','C','X','Y','Z'}) {
+//                    System.out.println(pg.getBags().get(b).getPebbles().toString() + " "
+//                            + pg.getBags().get(b).getPebbles().size());
+//                }
+//
+//                for (int i = 0; i < pg.getPlayerCount(); i++) {
+//                    PebbleGame.Player p = (PebbleGame.Player) pg.getPlayers().get(i);
+//                    System.out.println(Arrays.toString(p.getPebbles()) + " " + p.getPebbles().length);
+//                }
 
             } catch (NumberFormatException e) {
                 System.out.println("Input not an integer!");
