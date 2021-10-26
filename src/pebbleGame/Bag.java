@@ -53,7 +53,7 @@ public class Bag {
      *
      * @return integer containing bag capacity
      */
-    public int checkBagCapacity() {
+    public synchronized int checkBagCapacity() {
         int capacity = pebbles.size();
         return capacity;
     }
@@ -61,7 +61,7 @@ public class Bag {
     /**
      * Only on WHITE bags - Adds a pebble of specified weight
      */
-    public void addPebble(int weight) throws PebbleErrors.IllegalBagTypeException {
+    public synchronized void addPebble(int weight) throws PebbleErrors.IllegalBagTypeException {
         if (type == BagType.BLACK) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run addPebble from BLACK bag");
         }
@@ -69,18 +69,9 @@ public class Bag {
     }
 
     /**
-     * Only on BLACK bags - removes a pebble from the bag at a given index
+     * Only on BLACK bags - returns a random pebble from the bag.
      */
-    public void removePebble(int index) throws PebbleErrors.IllegalBagTypeException {
-        if (type == BagType.WHITE) {
-            throw new PebbleErrors.IllegalBagTypeException("Tried to run removePebble from WHITE bag");
-        }
-    }
-
-    /**
-     * Only on BLACK bags - removes a pebble from the bag at a given index
-     */
-    public int takeRandomPebble() throws PebbleErrors.IllegalBagTypeException {
+    public synchronized int takeRandomPebble() throws PebbleErrors.IllegalBagTypeException {
         if (type == BagType.WHITE) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run takeRandomPebble from WHITE bag");
         }
@@ -122,7 +113,7 @@ public class Bag {
      *
      * @param b bag to swap content with
      */
-    public void swapContents(char b) throws PebbleErrors.IllegalBagTypeException {
+    public synchronized void swapContents(char b) throws PebbleErrors.IllegalBagTypeException {
         if (type == BagType.WHITE) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run swapContents from WHITE bag");
         }

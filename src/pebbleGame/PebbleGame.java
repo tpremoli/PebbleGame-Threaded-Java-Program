@@ -28,7 +28,9 @@ public class PebbleGame {
             FileReader fr = new FileReader(fileLocation);
             BufferedReader br = new BufferedReader(fr);
 
-            ArrayList<String> weights = new ArrayList<String>(Arrays.asList(br.readLine().split(",")));
+            String lineWithoutSpaces = br.readLine().replaceAll(" ", "");
+            ArrayList<String> weights = new ArrayList<String>
+                    (Arrays.asList(lineWithoutSpaces.split(",")));
 
             if (weights.size() < playerCount * 11) {
                 throw new PebbleErrors.NotEnoughPebblesInFileException(

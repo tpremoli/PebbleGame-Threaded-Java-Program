@@ -96,7 +96,6 @@ public class Main {
             z = pg.createBlackBag('Z', zLoc);
         }
 
-
         bags.put('A', a);
         bags.put('B', b);
         bags.put('C', c);
