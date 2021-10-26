@@ -43,6 +43,8 @@ public class Main {
                 e.printStackTrace();
             } catch (PebbleErrors.IllegalBagTypeException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -53,10 +55,11 @@ public class Main {
      * calls createBlackBag method to load values from a bag file and call the black bag constructor.
      */
     public static void generateBags() {
+        HashMap<Character, Bag> bags = pg.getBags();
 
-        Bag a = new Bag('A');
-        Bag b = new Bag('B');
-        Bag c = new Bag('C');
+        Bag a = new Bag('A', bags);
+        Bag b = new Bag('B', bags);
+        Bag c = new Bag('C', bags);
         Bag x = null;
         Bag y = null;
         Bag z = null;
@@ -80,7 +83,6 @@ public class Main {
             z = pg.createBlackBag('Z', zLoc);
         }
 
-        HashMap<Character, Bag> bags = pg.getBags();
 
         bags.put('A', a);
         bags.put('B', b);

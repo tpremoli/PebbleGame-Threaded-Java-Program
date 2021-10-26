@@ -10,6 +10,11 @@ public class PebbleGame {
     private HashMap<Character, Bag> bags;
     private Bag lastBag;
 
+    public PebbleGame(){
+        bags = new HashMap<>();
+        players = new ArrayList<>();
+    }
+
     /**
      * Reads bag file, loads values to a temporary arrayList and calls the
      * bag constructor with the arrayList as an attribute
@@ -42,7 +47,7 @@ public class PebbleGame {
                 pebbles.add(pebble);
             }
 
-            Bag b = new Bag(name, pebbles, fileLocation);
+            Bag b = new Bag(name, pebbles, fileLocation, bags);
             return b;
 
         } catch (IOException e) {

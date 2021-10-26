@@ -1,6 +1,7 @@
 package pebbleGame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class Bag {
@@ -13,6 +14,7 @@ public class Bag {
         BLACK
     }
 
+    private HashMap<Character, Bag> bags;
     private BagType type;
     private String fileLocation;
     private ArrayList<Integer> pebbles;
@@ -24,11 +26,12 @@ public class Bag {
      * @param pebbles      the ArrayList of pebble weights
      * @param fileLocation the string of the file location of the pebble weights
      */
-    public Bag(char name, ArrayList<Integer> pebbles, String fileLocation) {
+    public Bag(char name, ArrayList<Integer> pebbles, String fileLocation, HashMap<Character, Bag> bags) {
         this.bagName = name;
         this.pebbles = pebbles;
         this.type = BagType.BLACK;
         this.fileLocation = fileLocation;
+        this.bags = bags;
     }
 
     /**
@@ -36,10 +39,12 @@ public class Bag {
      *
      * @param name the char name of the bag
      */
-    public Bag(char name) {
+    public Bag(char name, HashMap<Character, Bag> bags) {
         this.bagName = name;
         this.pebbles = new ArrayList<Integer>();
         this.type = BagType.WHITE;
+        this.bags = bags;
+
         // TODO: Create csv file to store bag contents?
     }
 
@@ -122,6 +127,14 @@ public class Bag {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run swapContents from WHITE bag");
         }
 
+
+        Bag bagToSwap = bags.get(b);
+
+        ArrayList<Integer> emptyPebbles = new ArrayList<>();
+
+        this.setPebbles(bagToSwap.getPebbles());
+
+        bagToSwap.setPebbles(emptyPebbles);
     }
 
     /**
