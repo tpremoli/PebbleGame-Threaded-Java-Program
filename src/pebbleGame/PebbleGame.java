@@ -229,10 +229,10 @@ public class PebbleGame {
          * @throws IOException
          */
         public void writePebblesToFile(FileWriter writer) throws IOException {
-            String pebblesString = pebbles.toString()
+            String pebblesString = Arrays.toString(pebbles)
                     .replace("[", "")
                     .replace("]", "");
-            writer.write("\tPlayer " + playerID + " hand is " + pebblesString);
+            writer.write("\tPlayer " + playerID + " hand is " + pebblesString + "\r\n");
             writer.close();
         }
 
