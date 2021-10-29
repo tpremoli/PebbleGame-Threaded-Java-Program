@@ -170,64 +170,6 @@ public class PebbleGame {
         }
 
         /**
-         * Runs a method getting rid of the pebble with the specified weight and picking a new one from a black bag
-         * (terminates program if total weight = 100)
-         * MUST BE ATOMIC
-         * <p>
-         * This is actually unnecessary, will probably delete.
-         *
-         * @param pebbleWeight of pebble to discard
-         * @Deprecated
-         */
-        public void swapPebble(int pebbleWeight) throws IOException {
-            this.writeDiscardToFile(pebbleWeight, lastBag.getBagName());
-
-            Bag newBag = getRandomBlackBag();
-
-            // Get new pebble
-            int newPebble = 0;
-            try {
-                newPebble = newBag.takeRandomPebble();
-            } catch (PebbleErrors.IllegalBagTypeException e) {
-                e.printStackTrace();
-            }
-
-
-            // Swap old pebble with new pebble
-            for (int i = 0; i < pebbles.length - 1; i++) {
-                if (pebbles[i] == pebbleWeight) {
-                    pebbles[i] = newPebble;
-                }
-            }
-
-            // Add removed pebble to a white bag, getting corresponding white bag first
-
-            Bag whiteBag = null;
-
-            try {
-                whiteBag = bags.get(lastBag.getCounterpart());
-
-                whiteBag.addPebble(pebbleWeight); //adding weight of discarded pebble to white bag
-
-            } catch (PebbleErrors.IllegalBagTypeException e) {
-                e.printStackTrace();
-            }
-
-            lastBag = newBag;
-
-            this.writeDrawToFile(pebbleWeight, lastBag.getBagName());
-
-            /*
-                player1 has drawn a 17 from bag Y
-                    player1 hand is 1, 2, 45, 6, 7, 8, 56, 23, 12, 17
-
-                player1 has discarded a 45 to bag B
-                    player1 hand is 1, 2, 6, 7, 8, 56, 23, 12, 17
-           */
-
-        }
-
-        /**
          * Runs a method getting rid of the pebble with a random weight and picking a new one from a black bag
          * (terminates program if total weight = 100)
          * MUST BE ATOMIC
