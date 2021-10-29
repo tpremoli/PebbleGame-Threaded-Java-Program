@@ -1,7 +1,6 @@
 package pebbleGame;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -96,16 +95,17 @@ public class PebbleGame {
         return bags;
     }
 
-    public void setBags(HashMap<Character, Bag> bags) {
-        this.bags = bags;
+    public boolean isFinished() {
+        return gameFinished.get();
     }
 
-    public Bag getLastBag() {
-        return lastBag;
-    }
-
-    public void setLastBag(Bag lastBag) {
-        this.lastBag = lastBag;
+    public void finish() {
+        gameFinished.set(true);
+        for (Thread t :
+                players) {
+//          ending the threads
+            t.interrupt();
+        }
     }
 
     class Player extends Thread {
@@ -126,18 +126,6 @@ public class PebbleGame {
             // Creating output file, writing pebbles to it using writeDataToFile()
             this.outputFile = "Player " + playerID + ".txt";
             //TODO: verify location of output file
-
-            // Getting 10 pebbles from  a random bag
-            Bag bagToDrawFrom = getRandomBlackBag();
-            for (int i = 0; i < 10; i++) {
-                int newPebble = bagToDrawFrom.takeRandomPebble();
-                pebbles[i] = newPebble;
-            }
-
-            this.initialWrite(bagToDrawFrom.getBagName());
-
-
-
         }
 
         /**
@@ -303,12 +291,12 @@ public class PebbleGame {
          * Logs a user's discard to their file.
          *
          * @param discardedPebble The weight of the discarded pebble.
-         * @param bag The bag that the pebble was discarded to.
+         * @param bag             The bag that the pebble was discarded to.
          * @throws IOException
          */
         public void writeDiscardToFile(int discardedPebble, char bag) throws IOException {
             FileWriter writer = new FileWriter(this.outputFile, true);
-            writer.write("Player "+this.playerID+" has discarded a "+discardedPebble+" to bag "+bag+"\r\n");
+            writer.write("Player " + this.playerID + " has discarded a " + discardedPebble + " to bag " + bag + "\r\n");
             writePebblesToFile(writer);
         }
 
@@ -316,16 +304,15 @@ public class PebbleGame {
          * Logs a user's draw to their file.
          *
          * @param drawnPebble The weight of the drawn pebble.
-         * @param bag The character of the bag that has been drawn from.
+         * @param bag         The character of the bag that has been drawn from.
          * @throws IOException
          */
         public void writeDrawToFile(int drawnPebble, char bag) throws IOException {
             FileWriter writer = new FileWriter(this.outputFile, true);
-            writer.write("Player "+this.playerID+" has drawn a "+drawnPebble+" from bag "+bag+"\r\n");
+            writer.write("Player " + this.playerID + " has drawn a " + drawnPebble + " from bag " + bag + "\r\n");
             writePebblesToFile(writer);
         }
 
-        // TODO: Create file?
         /**
          * Create player file, write initial pebble array to file.
          *

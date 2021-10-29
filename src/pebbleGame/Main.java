@@ -8,16 +8,18 @@ public class Main {
     public static PebbleGame pg = new PebbleGame();
 
     public static void main(String[] args) {
-            //TODO: Add interrupts
-            System.out.println(
-                    "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
-                            "You will be asked to enter the number of players \r\n" +
-                            "and then you will be asked for the location of three files containing\r\n" +
-                            "integer values separated by commas, to determine the pebble weights \r\n" +
-                            "These values must be positive.\r\n" +
-                            "The game will then be simulated, and output written to files in this directory\r\n");
+        //TODO: Add interrupts
+        System.out.println(
+                "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
+                        "You will be asked to enter the number of players \r\n" +
+                        "and then you will be asked for the location of three files containing\r\n" +
+                        "integer values separated by commas, to determine the pebble weights \r\n" +
+                        "These values must be positive.\r\n" +
+                        "The game will then be simulated, and output written to files in this directory\r\n");
 
-        while (true) { // Will change for interrupt
+//      this will ensure the input sequence will keep running until all inputs are valid.
+        boolean inputValid = false;
+        while (!inputValid) { // Will change for interrupt
             try {
                 System.out.println("Please input number of players:");
 
@@ -27,18 +29,15 @@ public class Main {
 
                 generateBags();
 
-
                 for (int i = 0; i < pg.getPlayerCount(); i++) {
                     pg.getPlayers().add(pg.new Player(i));
                 }
 
-                //players are done being made
-
-                for (Thread p : pg.getPlayers()) {
-                    p.start();
-                }
 
 // Testing that bag draws are behaving as expected
+//
+//                FIXME: this doesn't work anymore as draws are done on thread.start()
+//
 //                for (char b:
 //                        new char[]{'A','B','C','X','Y','Z'}) {
 //                    System.out.println(pg.getBags().get(b).getPebbles().toString() + " "
@@ -50,6 +49,10 @@ public class Main {
 //                    System.out.println(Arrays.toString(p.getPebbles()) + " " + p.getPebbles().length);
 //                }
 
+
+//                If we got here without exceptions, leave this loop.
+                inputValid = true;
+
             } catch (NumberFormatException e) {
                 System.out.println("Input not an integer!");
             } catch (PebbleErrors.IllegalPlayerNumberException e) {
@@ -58,6 +61,19 @@ public class Main {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+        }
+
+        for (Thread p : pg.getPlayers()) {
+            p.start();
+        }
+
+        System.out.println("Game is being simulated...");
+
+        // This is the finishing flag
+        while (!pg.isFinished()) {
+            if (reader.nextLine().equalsIgnoreCase("e")) {
+                pg.finish();
             }
         }
 
