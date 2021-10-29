@@ -3,15 +3,23 @@ package pebbleGame;
 import java.io.*;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PebbleGame {
 
     private ArrayList<Thread> players;
     private int playerCount;
     private HashMap<Character, Bag> bags;
-    private Bag lastBag;
 
-    public PebbleGame(){
+    // Volatile as we must save all changes to memory directly, ensuring data consistency.
+    // Lastbag is changed every time a bag is drawn from
+    private volatile Bag lastBag;
+
+    // Only one player can modify game finished state at once. This stops the game from running if it becomes true.
+    // replace with listener? This works for now regardless.
+    private AtomicBoolean gameFinished = new AtomicBoolean(false);
+
+    public PebbleGame() {
         bags = new HashMap<>();
         players = new ArrayList<>();
     }
@@ -167,12 +175,21 @@ public class PebbleGame {
             return sum;
         }
 
+        public synchronized boolean isWinner() {
+            if (this.getTotalPebbleWeight() == 100)
+                return true;
+            return false;
+        }
+
         /**
          * Runs a method getting rid of the pebble with the specified weight and picking a new one from a black bag
          * (terminates program if total weight = 100)
          * MUST BE ATOMIC
+         * <p>
+         * This is actually unnecessary, will probably delete.
          *
          * @param pebbleWeight of pebble to discard
+         * @Deprecated
          */
         public void swapPebble(int pebbleWeight) throws IOException {
             this.writeDiscardToFile(pebbleWeight, lastBag.getBagName());
@@ -209,7 +226,6 @@ public class PebbleGame {
             }
 
             lastBag = newBag;
-            // TODO: Method to see if some has won
 
             this.writeDrawToFile(pebbleWeight, lastBag.getBagName());
 
@@ -221,6 +237,53 @@ public class PebbleGame {
                     player1 hand is 1, 2, 6, 7, 8, 56, 23, 12, 17
            */
 
+        }
+
+        /**
+         * Runs a method getting rid of the pebble with a random weight and picking a new one from a black bag
+         * (terminates program if total weight = 100)
+         * MUST BE ATOMIC
+         */
+        public void swapRandomPebble() throws IOException {
+
+            Bag newBag = getRandomBlackBag();
+
+            int discardedPebbleIndex = new Random().nextInt(pebbles.length);
+            int discardedPebble = pebbles[discardedPebbleIndex];
+
+            // Get new pebble
+            int newPebble = 0;
+            try {
+                newPebble = newBag.takeRandomPebble();
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                e.printStackTrace();
+            }
+
+            pebbles[discardedPebbleIndex] = newPebble;
+
+
+            // Add removed pebble to a white bag, getting corresponding white bag first
+
+            Bag whiteBag = null;
+
+            try {
+                whiteBag = bags.get(lastBag.getCounterpart());
+
+                whiteBag.addPebble(discardedPebble); //adding weight of discarded pebble to white bag
+
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                e.printStackTrace();
+            }
+
+            lastBag = newBag;
+
+            this.writeDiscardToFile(discardedPebble, lastBag.getBagName());
+            this.writeDrawToFile(newPebble, lastBag.getBagName());
+
+        }
+
+        public int[] getPebbles() {
+            return pebbles;
         }
 
         /**
@@ -275,18 +338,60 @@ public class PebbleGame {
             writePebblesToFile(writer);
         }
 
-        public int[] getPebbles() {
-            return pebbles;
+        @Override
+        public void run() {
+
+            // changed initial draw to happen in thread as dictated by spec sheet
+            try {
+                // Getting 10 pebbles from  a random bag
+                Bag bagToDrawFrom = getRandomBlackBag();
+                for (int i = 0; i < 10; i++) {
+                    int newPebble = bagToDrawFrom.takeRandomPebble();
+                    pebbles[i] = newPebble;
+                }
+
+                this.initialWrite(bagToDrawFrom.getBagName());
+
+                lastBag = bagToDrawFrom;
+
+            } catch (IOException e) {
+                //TODO: Handle this IOException
+                e.printStackTrace();
+            } catch (PebbleErrors.IllegalBagTypeException e) {
+                //TODO: Handle this IOException
+                e.printStackTrace();
+            }
+
+
+//          isInterrupted is the game finish flag
+            while (!this.isInterrupted()) {
+
+                try {
+                    this.swapRandomPebble();
+                } catch (IOException e) {
+                    //TODO: Handle this IOException
+
+                    e.printStackTrace();
+                }
+
+//                System.out.println("Player " + this.playerID + " weight " + this.getTotalPebbleWeight());
+//                above print statement is helpful for figuring out the issues. Usually players do one more draw
+//                after someone's already won.
+//                TODO: This code works, however other threads keep running if this one is done. Maybe a listener
+//                TODO: would help, or .sleep/.notify/interrupt. gotta figure this out.
+//                TODO: players get out of sync; must find way to resync them. players can keep drawing after game is done
+
+                if (this.isWinner()) {
+                    finish();
+                }
+            }
+
+
+            if (this.getTotalPebbleWeight() == 100) {
+                System.out.println("Game ended! Player " + this.playerID + " has won!");
+            }
+
         }
-
-        public void setPebbles(int[] pebbles) {
-            this.pebbles = pebbles;
-        }
-
-    @Override
-    public void run() {
-
     }
-}
 
 }

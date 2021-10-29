@@ -17,7 +17,9 @@ public class Bag {
     private HashMap<Character, Bag> bags;
     private BagType type;
     private String fileLocation;
-    private ArrayList<Integer> pebbles;
+    // Volatile as we must save all changes to memory directly, ensuring data consistency.
+    // pebbles changes when threads draw from it.
+    private volatile ArrayList<Integer> pebbles;
     private char bagName;
 
     /**
