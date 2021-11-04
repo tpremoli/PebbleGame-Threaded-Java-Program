@@ -8,10 +8,10 @@ public class PebbleGame {
 
     private ArrayList<Thread> players;
     private int playerCount;
-    private HashMap<Character, Bag> bags;
+    private final HashMap<Character, Bag> bags;
 
     // Volatile as we must save all changes to memory directly, ensuring data consistency.
-    // Lastbag is changed every time a bag is drawn from
+    // lastBag is changed every time a bag is drawn from
     private volatile Bag lastBag;
 
     // Only one player can modify game finished state at once. This stops the game from running if it becomes true.
@@ -27,7 +27,7 @@ public class PebbleGame {
      * Reads bag file, loads values to a temporary arrayList and calls the
      * bag constructor with the arrayList as an attribute
      *
-     * @param fileLocation
+     * @param fileLocation Location where file will be written
      */
     public Bag createBlackBag(char name, String fileLocation) {
 
@@ -36,7 +36,7 @@ public class PebbleGame {
             BufferedReader br = new BufferedReader(fr);
 
             String lineWithoutSpaces = br.readLine().replaceAll(" ", "");
-            ArrayList<String> weights = new ArrayList<String>
+            ArrayList<String> weights = new ArrayList<>
                     (Arrays.asList(lineWithoutSpaces.split(",")));
 
             if (weights.size() < playerCount * 11) {
@@ -44,7 +44,7 @@ public class PebbleGame {
                         "File, " + fileLocation + " did not have enough pebbles, please enter a valid file.");
             }
 
-            ArrayList<Integer> pebbles = new ArrayList<Integer>(weights.size());
+            ArrayList<Integer> pebbles = new ArrayList<>(weights.size());
 
             for (String w :
                     weights) {
@@ -57,19 +57,16 @@ public class PebbleGame {
                 pebbles.add(pebble);
             }
 
-            Bag b = new Bag(name, pebbles, fileLocation, bags);
-            return b;
+            return new Bag(name, pebbles, fileLocation, bags);
 
         } catch (IOException e) {
             System.out.println("File, " + fileLocation + " not found, please enter a valid file path.");
             // System.out.println(e);
         } catch (NumberFormatException e) {
             System.out.println("File, " + fileLocation + " was not formatted correctly, please enter a valid file " +
-                    "format.");
+                               "format.");
             // System.out.println(e);
-        } catch (PebbleErrors.NotEnoughPebblesInFileException e) {
-            System.out.println(e.getMessage());
-        } catch (PebbleErrors.NegativePebbleWeightException e) {
+        } catch (PebbleErrors.NotEnoughPebblesInFileException | PebbleErrors.NegativePebbleWeightException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -77,10 +74,6 @@ public class PebbleGame {
 
     public ArrayList<Thread> getPlayers() {
         return players;
-    }
-
-    public void setPlayers(ArrayList<Thread> players) {
-        this.players = players;
     }
 
     public int getPlayerCount() {
@@ -109,11 +102,18 @@ public class PebbleGame {
         }
     }
 
+    public synchronized void winCheck(Player player) {
+        if (player.getTotalPebbleWeight() == 100 && !isFinished()) {
+            System.out.println("Player " + player.playerID + " has won the game! Their pebble weight is 100.");
+            finish(false);
+        }
+    }
+
     class Player extends Thread {
 
-        private int playerID;
+        private final int playerID;
         private int[] pebbles;
-        private String outputFile;
+        private final String outputFile;
 
         /**
          * Constructor for player object,
@@ -136,20 +136,13 @@ public class PebbleGame {
          */
         public Bag getRandomBlackBag() {
             int index = new Random().nextInt(3);
-            char bagChar = ' ';
-            switch (index) {
-                case 0:
-                    bagChar = 'X';
-                    break;
-                case 1:
-                    bagChar = 'Y';
-                    break;
-                case 2:
-                    bagChar = 'Z';
-                    break;
-            }
-            Bag chosenBag = bags.get(bagChar);
-            return chosenBag;
+            char bagChar = switch (index) {
+                case 0 -> 'X';
+                case 1 -> 'Y';
+                case 2 -> 'Z';
+                default -> ' ';
+            };
+            return bags.get(bagChar);
         }
 
         /**
@@ -163,7 +156,6 @@ public class PebbleGame {
 
             return sum;
         }
-
 
 
         /**
@@ -191,7 +183,7 @@ public class PebbleGame {
 
             // Add removed pebble to a white bag, getting corresponding white bag first
 
-            Bag whiteBag = null;
+            Bag whiteBag;
 
             try {
                 whiteBag = bags.get(lastBag.getCounterpart());
@@ -207,10 +199,6 @@ public class PebbleGame {
             this.writeDiscardToFile(discardedPebble, lastBag.getBagName());
             this.writeDrawToFile(newPebble, lastBag.getBagName());
 
-        }
-
-        public int[] getPebbles() {
-            return pebbles;
         }
 
         /**
@@ -280,26 +268,32 @@ public class PebbleGame {
 
                 lastBag = bagToDrawFrom;
 
-            } catch (IOException e) {
-                //TODO: Handle this IOException
-                e.printStackTrace();
-            } catch (PebbleErrors.IllegalBagTypeException e) {
-                //TODO: Handle this IOException
+            } catch (IOException | PebbleErrors.IllegalBagTypeException e) {
+                //TODO: Handle these exception
                 e.printStackTrace();
             }
 
 
-//          isInterrupted is the game finish flag
-            while (!this.isInterrupted()) {
+//          isFinished is the game finish flag
+            while (!isFinished()) {
+//                TODO: This code works, however idk if it's better to use wait/sleep
+
+                winCheck(this);
+
+
+//                if (!isFinished())
+//                    System.out.println("Player " + this.playerID + " weight " + this.getTotalPebbleWeight());
+//                above print statement is helpful for figuring out issues.
+
 
                 try {
-                    this.swapRandomPebble();
+                    if (!isFinished())
+                        this.swapRandomPebble();
                 } catch (IOException e) {
                     //TODO: Handle this IOException
 
                     e.printStackTrace();
                 }
-
 
 
             }

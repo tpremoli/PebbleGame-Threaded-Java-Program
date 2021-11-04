@@ -14,13 +14,13 @@ public class Bag {
         BLACK
     }
 
-    private HashMap<Character, Bag> bags;
-    private BagType type;
+    private final HashMap<Character, Bag> bags;
+    private final BagType type;
     private String fileLocation;
     // Volatile as we must save all changes to memory directly, ensuring data consistency.
     // pebbles changes when threads draw from it.
     private volatile ArrayList<Integer> pebbles;
-    private char bagName;
+    private final char bagName;
 
     /**
      * Constructor for black bags, is called when an ArrayList of pebble weights is specified as a parameter
@@ -43,21 +43,11 @@ public class Bag {
      */
     public Bag(char name, HashMap<Character, Bag> bags) {
         this.bagName = name;
-        this.pebbles = new ArrayList<Integer>();
+        this.pebbles = new ArrayList<>();
         this.type = BagType.WHITE;
         this.bags = bags;
 
         // TODO: Create csv file to store bag contents?
-    }
-
-    /**
-     * Returns how many pebbles are in a bag.
-     *
-     * @return integer containing bag capacity
-     */
-    public synchronized int checkBagCapacity() {
-        int capacity = pebbles.size();
-        return capacity;
     }
 
     /**
@@ -91,22 +81,15 @@ public class Bag {
     }
 
     public char getCounterpart() throws PebbleErrors.IllegalBagTypeException {
-        switch (bagName) {
-            case 'X':
-                return 'A';
-            case 'Y':
-                return 'B';
-            case 'Z':
-                return 'C';
-            case 'A':
-                return 'X';
-            case 'B':
-                return 'Y';
-            case 'C':
-                return 'Z';
-            default:
-                throw new PebbleErrors.IllegalBagTypeException("Error in finding bag counterpart!");
-        }
+        return switch (bagName) {
+            case 'X' -> 'A';
+            case 'Y' -> 'B';
+            case 'Z' -> 'C';
+            case 'A' -> 'X';
+            case 'B' -> 'Y';
+            case 'C' -> 'Z';
+            default -> throw new PebbleErrors.IllegalBagTypeException("Error in finding bag counterpart!");
+        };
 
     }
 
@@ -134,22 +117,6 @@ public class Bag {
      * Get/Set methods
      */
 
-    public BagType getType() {
-        return type;
-    }
-
-    public void setType(BagType type) {
-        this.type = type;
-    }
-
-    public String getFileLocation() {
-        return fileLocation;
-    }
-
-    public void setFileLocation(String fileLocation) {
-        this.fileLocation = fileLocation;
-    }
-
     public ArrayList<Integer> getPebbles() {
         return pebbles;
     }
@@ -162,7 +129,4 @@ public class Bag {
         return bagName;
     }
 
-    public void setBagName(char bagName) {
-        this.bagName = bagName;
-    }
 }

@@ -11,11 +11,11 @@ public class Main {
         //TODO: Add interrupts
         System.out.println(
                 "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
-                        "You will be asked to enter the number of players \r\n" +
-                        "and then you will be asked for the location of three files containing\r\n" +
-                        "integer values separated by commas, to determine the pebble weights \r\n" +
-                        "These values must be positive.\r\n" +
-                        "The game will then be simulated, and output written to files in this directory\r\n");
+                "You will be asked to enter the number of players \r\n" +
+                "and then you will be asked for the location of three files containing\r\n" +
+                "integer values separated by commas, to determine the pebble weights \r\n" +
+                "These values must be positive.\r\n" +
+                "The game will then be simulated, and output written to files in this directory\r\n");
 
 //      this will ensure the input sequence will keep running until all inputs are valid.
         boolean inputValid = false;
@@ -55,11 +55,7 @@ public class Main {
 
             } catch (NumberFormatException e) {
                 System.out.println("Input not an integer!");
-            } catch (PebbleErrors.IllegalPlayerNumberException e) {
-                e.printStackTrace();
-            } catch (PebbleErrors.IllegalBagTypeException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (PebbleErrors.IllegalPlayerNumberException | PebbleErrors.IllegalBagTypeException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -121,12 +117,5 @@ public class Main {
         bags.put('Y', y);
         bags.put('Z', z);
 
-    }
-
-    /**
-     * Exits game when 'E' is pressed on the keyboard
-     */
-    public static void exitGame() {
-        // TODO: Interrupt when E is pressed and exit program
     }
 }
