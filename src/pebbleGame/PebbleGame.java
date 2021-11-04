@@ -99,12 +99,13 @@ public class PebbleGame {
         return gameFinished.get();
     }
 
-    public void finish() {
+    public void finish(boolean isExit) {
         gameFinished.set(true);
-        for (Thread t :
-                players) {
-//          ending the threads
-            t.interrupt();
+
+        if (isExit) {
+            System.out.println("Game has been exited. Thanks for playing!");
+        } else {
+            System.out.println("Simulation has concluded. Enter e to terminate program.");
         }
     }
 
@@ -163,11 +164,7 @@ public class PebbleGame {
             return sum;
         }
 
-        public synchronized boolean isWinner() {
-            if (this.getTotalPebbleWeight() == 100)
-                return true;
-            return false;
-        }
+
 
         /**
          * Runs a method getting rid of the pebble with a random weight and picking a new one from a black bag
@@ -303,23 +300,9 @@ public class PebbleGame {
                     e.printStackTrace();
                 }
 
-//                System.out.println("Player " + this.playerID + " weight " + this.getTotalPebbleWeight());
-//                above print statement is helpful for figuring out the issues. Usually players do one more draw
-//                after someone's already won.
-//                TODO: This code works, however other threads keep running if this one is done. Maybe a listener
-//                TODO: would help, or .sleep/.notify/interrupt. gotta figure this out.
-//                TODO: players get out of sync; must find way to resync them. players can keep drawing after game is done
 
-                if (this.isWinner()) {
-                    finish();
-                }
+
             }
-
-
-            if (this.getTotalPebbleWeight() == 100) {
-                System.out.println("Game ended! Player " + this.playerID + " has won!");
-            }
-
         }
     }
 

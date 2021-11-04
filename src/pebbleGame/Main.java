@@ -69,11 +69,13 @@ public class Main {
         }
 
         System.out.println("Game is being simulated...");
+        System.out.println();
 
-        // This is the finishing flag
+//      This could be done better? Program doesn't stop at all until e is entered.
+//      TODO: Check if we need listener here
         while (!pg.isFinished()) {
             if (reader.nextLine().equalsIgnoreCase("e")) {
-                pg.finish();
+                pg.finish(true);
             }
         }
 
