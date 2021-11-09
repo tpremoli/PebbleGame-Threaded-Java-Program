@@ -284,6 +284,7 @@ public class PebbleGame {
                 lastBag = bagToDrawFrom;
 
             } catch (IOException | PebbleErrors.IllegalBagTypeException | PebbleErrors.NegativePebbleWeightException e) {
+                //TODO: Handle these exception
                 e.printStackTrace();
             }
 
@@ -304,7 +305,7 @@ public class PebbleGame {
                     if (!isFinished())
                         this.swapRandomPebble();
                 } catch (IOException e) {
-                   e.printStackTrace();
+                    e.printStackTrace();
                 }
 
 
