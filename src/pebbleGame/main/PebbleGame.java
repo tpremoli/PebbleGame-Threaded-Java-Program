@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 import java.io.*;
 import java.util.*;

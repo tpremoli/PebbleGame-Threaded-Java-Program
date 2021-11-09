@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -120,10 +120,10 @@ public class Bag {
     }
 
     public void setPebbles(ArrayList<Integer> pebbles) throws PebbleErrors.NegativePebbleWeightException {
-        for (int pebble : pebbles) {
+        for (int pebble : pebbles){
             if (pebble < 0) {
                 throw new PebbleErrors.NegativePebbleWeightException("The pebbbles provided were not formatted " +
-                                                                     "correctly, make sure all pebble sizes are strictly positive");
+                        "correctly, make sure all pebble sizes are strictly positive");
             }
         }
         this.pebbles = pebbles;

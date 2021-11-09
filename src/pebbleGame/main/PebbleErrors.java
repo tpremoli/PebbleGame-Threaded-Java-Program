@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 public class PebbleErrors {
 
