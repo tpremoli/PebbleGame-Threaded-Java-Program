@@ -1,7 +1,7 @@
-package pebbleGame.main;
+package pebbleGame;
 
 import org.junit.*;
-import pebbleGame.main.*;
+import pebbleGame.*;
 
 import java.io.*;
 import java.nio.file.*;
