@@ -1,4 +1,4 @@
-package pebbleGame.main;
+package pebbleGame.test;
 
 import org.junit.*;
 import pebbleGame.main.*;
@@ -90,7 +90,7 @@ public class PebbleGameTest {
         FileWriter writer = new FileWriter(testPlayer.getOutputFile(), true);
         testPlayer.writePebblesToFile(writer);
         List<String> actualContents = Files.readAllLines(Paths.get("./Player -1.txt"));
-        List<String> expectedContents = Files.readAllLines(Paths.get("./src/test-files/test_writePebblesToFile.txt"));
+        List<String> expectedContents = Files.readAllLines(Paths.get("./src/pebbleGame/test/test_writePebblesToFile.txt"));
 
         assert actualContents.get(0).equals(expectedContents.get(0));
     }
@@ -99,7 +99,7 @@ public class PebbleGameTest {
     public void writeDiscardToFile() throws IOException {
         testPlayer.writeDiscardToFile(0, 'A');
         List<String> actualContents = Files.readAllLines(Paths.get("./Player -1.txt"));
-        List<String> expectedContents = Files.readAllLines(Paths.get("./src/test-files/test_writeDiscardToFile.txt"));
+        List<String> expectedContents = Files.readAllLines(Paths.get("./src/pebbleGame/test/test_writeDiscardToFile.txt"));
 
         assert actualContents.get(0).equals(expectedContents.get(0));
     }
@@ -108,7 +108,7 @@ public class PebbleGameTest {
     public void initialWrite() throws IOException {
         testPlayer.initialWrite('A');
         List<String> actualContents = Files.readAllLines(Paths.get("./Player -1.txt"));
-        List<String> expectedContents = Files.readAllLines(Paths.get("./src/test-files/test_initialWrite.txt"));
+        List<String> expectedContents = Files.readAllLines(Paths.get("./src/pebbleGame/test/test_initialWrite.txt"));
 
         assert actualContents.get(0).equals(expectedContents.get(0));
     }

@@ -119,7 +119,7 @@ public class Bag {
         return pebbles;
     }
 
-    public void setPebbles(ArrayList<Integer> pebbles) throws PebbleErrors.NegativePebbleWeightException {
+    public synchronized void setPebbles(ArrayList<Integer> pebbles) throws PebbleErrors.NegativePebbleWeightException {
         for (int pebble : pebbles){
             if (pebble < 0) {
                 throw new PebbleErrors.NegativePebbleWeightException("The pebbbles provided were not formatted " +

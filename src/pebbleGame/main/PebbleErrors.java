@@ -5,7 +5,7 @@ public class PebbleErrors {
     /**
      * thrown when the provided player number is not positive
      */
-    static class IllegalPlayerNumberException extends Exception{
+    public static class IllegalPlayerNumberException extends Exception{
         public IllegalPlayerNumberException(String errorMessage){
             super(errorMessage);
         }
@@ -23,7 +23,7 @@ public class PebbleErrors {
     /**
      * Thrown when there aren't at least 11x the amount of valid pebbles as number of players.
      */
-    static class NotEnoughPebblesInFileException extends Exception{
+    public static class NotEnoughPebblesInFileException extends Exception{
         public NotEnoughPebblesInFileException(String errorMessage){
             super(errorMessage);
         }
@@ -32,7 +32,7 @@ public class PebbleErrors {
     /**
      * Thrown when a pebble weight in a file is negative.
      */
-    static class NegativePebbleWeightException extends Exception{
+    public static class NegativePebbleWeightException extends Exception{
         public NegativePebbleWeightException(String errorMessage){
             super(errorMessage);
         }
@@ -41,6 +41,6 @@ public class PebbleErrors {
     /**
      * Thrown when a pebble weight in a file is negative.
      */
-    static class ExitException extends Exception{
+    public static class ExitException extends Exception{
     }
 }
