@@ -101,7 +101,7 @@ public class Bag {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run swapContents from WHITE bag");
         }
 
-
+//      swaps contents with b
         Bag bagToSwap = bags.get(b);
 
         ArrayList<Integer> emptyPebbles = new ArrayList<>();

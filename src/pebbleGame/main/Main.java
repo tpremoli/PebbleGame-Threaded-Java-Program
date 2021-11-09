@@ -8,16 +8,15 @@ public class Main {
     public static PebbleGame pg = new PebbleGame();
 
     public static void main(String[] args) {
-        //TODO: Add interrupts
         System.out.println(
                 """
-                Welcome to the PebbleGame!!!!!! :D xD \r
-                You will be asked to enter the number of players \r
-                and then you will be asked for the location of three files containing\r
-                integer values separated by commas, to determine the pebble weights \r
-                These values must be positive.\r
-                The game will then be simulated, and output written to files in this directory\r
-                """);
+                        Welcome to the PebbleGame!!!!!! :D xD \r
+                        You will be asked to enter the number of players \r
+                        and then you will be asked for the location of three files containing\r
+                        integer values separated by commas, to determine the pebble weights \r
+                        These values must be positive.\r
+                        The game will then be simulated, and output written to files in this directory\r
+                        """);
 
 //      this will ensure the input sequence will keep running until all inputs are valid.
         boolean inputValid = false;
@@ -41,31 +40,39 @@ public class Main {
             } catch (PebbleErrors.IllegalPlayerNumberException | PebbleErrors.IllegalBagTypeException |
                     PebbleErrors.NotEnoughPebblesInFileException | IOException e) {
                 e.printStackTrace();
+            } catch (PebbleErrors.ExitException e) {
+                pg.finish(true);
+                inputValid = true;
             }
         }
 
-        for (Thread p : pg.getPlayers()) {
-            p.start();
-        }
+        if (!pg.isFinished()) {
 
-        System.out.println("Game is being simulated...");
-        System.out.println();
+            for (Thread p : pg.getPlayers()) {
+                p.start();
+            }
+
+            System.out.println("Game is being simulated...");
+            System.out.println();
+
 
 //      This could be done better? Program doesn't stop at all until e is entered.
-//      TODO: Check if we need listener here
-        while (!pg.isFinished()) {
-            if (reader.nextLine().equalsIgnoreCase("e")) {
-                pg.finish(true);
+            while (!pg.isFinished()) {
+                if (reader.nextLine().equalsIgnoreCase("e")) {
+                    pg.finish(true);
+                }
             }
+
         }
+
 
     }
 
     public static void generatePlayers(int playerCount) throws PebbleErrors.IllegalPlayerNumberException,
-            PebbleErrors.IllegalBagTypeException, IOException, PebbleErrors.NotEnoughPebblesInFileException {
+            PebbleErrors.IllegalBagTypeException, IOException, PebbleErrors.NotEnoughPebblesInFileException, PebbleErrors.ExitException {
         pg.setPlayerCount(playerCount);
 
-        if (pg.getPlayerCount() < 1){
+        if (pg.getPlayerCount() < 1) {
             throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
         }
 
@@ -80,7 +87,7 @@ public class Main {
      * generate 3 white (empty, named A, B, C) and 3 black bags (named X, Y, Z),
      * calls createBlackBag method to load values from a bag file and call the black bag constructor.
      */
-    public static void generateBags() {
+    public static void generateBags() throws PebbleErrors.ExitException {
         HashMap<Character, Bag> bags = pg.getBags();
 
         Bag a = new Bag('A', bags);

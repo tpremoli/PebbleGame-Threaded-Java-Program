@@ -37,4 +37,10 @@ public class PebbleErrors {
             super(errorMessage);
         }
     }
+
+    /**
+     * Thrown when a pebble weight in a file is negative.
+     */
+    static class ExitException extends Exception{
+    }
 }

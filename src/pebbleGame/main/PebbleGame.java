@@ -32,6 +32,7 @@ public class PebbleGame {
     public Bag createBlackBag(char name, String fileLocation) {
 
         try {
+//          Reading files
             FileReader fr = new FileReader(fileLocation);
             BufferedReader br = new BufferedReader(fr);
 
@@ -44,6 +45,8 @@ public class PebbleGame {
                         "File, " + fileLocation + " did not have enough pebbles, please enter a valid file.");
             }
 
+
+//          Converting file input into pebbles arraylist
             ArrayList<Integer> pebbles = new ArrayList<>(weights.size());
 
             for (String w :
@@ -57,15 +60,14 @@ public class PebbleGame {
                 pebbles.add(pebble);
             }
 
+//          Turning all the data into a bag object
             return new Bag(name, pebbles, fileLocation, bags);
 
         } catch (IOException e) {
             System.out.println("File, " + fileLocation + " not found, please enter a valid file path.");
-            // System.out.println(e);
         } catch (NumberFormatException e) {
             System.out.println("File, " + fileLocation + " was not formatted correctly, please enter a valid file " +
-                               "format.");
-            // System.out.println(e);
+                    "format.");
         } catch (PebbleErrors.NotEnoughPebblesInFileException | PebbleErrors.NegativePebbleWeightException e) {
             System.out.println(e.getMessage());
         }
@@ -148,7 +150,7 @@ public class PebbleGame {
             return bags.get(bagChar);
         }
 
-        public void setPebbles(int[] pebble){
+        public void setPebbles(int[] pebble) {
             this.pebbles = pebble;
         }
 
@@ -214,6 +216,7 @@ public class PebbleGame {
          * @throws IOException
          */
         public void writePebblesToFile(FileWriter writer) throws IOException {
+//          Parsing strings and writing them
             String pebblesString = Arrays.toString(pebbles)
                     .replace("[", "")
                     .replace("]", "");
@@ -284,7 +287,6 @@ public class PebbleGame {
                 lastBag = bagToDrawFrom;
 
             } catch (IOException | PebbleErrors.IllegalBagTypeException | PebbleErrors.NegativePebbleWeightException e) {
-                //TODO: Handle these exception
                 e.printStackTrace();
             }
 
@@ -300,8 +302,6 @@ public class PebbleGame {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-
             }
         }
     }
