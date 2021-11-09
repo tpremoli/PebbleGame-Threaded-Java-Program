@@ -291,15 +291,8 @@ public class PebbleGame {
 
 //          isFinished is the game finish flag
             while (!isFinished()) {
-//                TODO: This code works, however idk if it's better to use wait/sleep
-
+//              Check if someone won
                 winCheck(this);
-
-
-//                if (!isFinished())
-//                    System.out.println("Player " + this.playerID + " weight " + this.getTotalPebbleWeight());
-//                above print statement is helpful for figuring out issues.
-
 
                 try {
                     if (!isFinished())

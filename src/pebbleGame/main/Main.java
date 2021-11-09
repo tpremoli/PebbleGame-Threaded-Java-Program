@@ -24,7 +24,13 @@ public class Main {
         while (!inputValid) { // Will change for interrupt
             try {
                 System.out.println("Please input number of players:");
-                int playerCount = Integer.parseInt(reader.nextLine());
+                String input = reader.nextLine();
+
+                if (input.equalsIgnoreCase("e")) {
+                    throw new PebbleErrors.ExitException();
+                }
+
+                int playerCount = Integer.parseInt(input);
 
                 generatePlayers(playerCount);
 
@@ -88,18 +94,29 @@ public class Main {
         while (x == null) {
             System.out.println("Please enter location of bag number 0 to load:");
             String xLoc = reader.nextLine();
+//          Exit line
+            if (xLoc.equalsIgnoreCase("e")) {
+                throw new PebbleErrors.ExitException();
+            }
+//          creates bag with specified file
             x = pg.createBlackBag('X', xLoc);
         }
 
         while (y == null) {
             System.out.println("Please enter location of bag number 1 to load:");
             String yLoc = reader.nextLine();
+            if (yLoc.equalsIgnoreCase("e")) {
+                throw new PebbleErrors.ExitException();
+            }
             y = pg.createBlackBag('Y', yLoc);
         }
 
         while (z == null) {
             System.out.println("Please enter location of bag number 2 to load:");
             String zLoc = reader.nextLine();
+            if (zLoc.equalsIgnoreCase("e")) {
+                throw new PebbleErrors.ExitException();
+            }
             z = pg.createBlackBag('Z', zLoc);
         }
 

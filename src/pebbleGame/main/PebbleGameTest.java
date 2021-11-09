@@ -14,8 +14,6 @@ public class PebbleGameTest {
     PebbleGame.Player testPlayer;
     Main mainGame;
 
-    //TODO: Test exceptions
-
     /**
      * Creates/Resets an example PebbleGame, Bag and Player object to be used for testing
      * Also tests constructors for Bag, PebbleGame and Player, and createBlackBag method
@@ -165,8 +163,10 @@ public class PebbleGameTest {
         // Checking that IllegalPlayerNumberException  is thrown as expected for invalid  player counts
         try{
             mainGame.generatePlayers(-1);
-        } catch (PebbleErrors.IllegalPlayerNumberException | PebbleErrors.NotEnoughPebblesInFileException e)  {
+        } catch (PebbleErrors.IllegalPlayerNumberException e)  {
             IllegalPlayerNumberExceptionThrown = true;
+        } catch (PebbleErrors.NotEnoughPebblesInFileException | PebbleErrors.ExitException e){
+            e.printStackTrace();
         }
         assert IllegalPlayerNumberExceptionThrown;
     }
