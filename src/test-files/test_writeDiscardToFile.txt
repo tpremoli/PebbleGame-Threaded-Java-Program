@@ -1,0 +1,2 @@
+Player -1 has discarded a 0 to bag A
+	Player -1 hand is 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
