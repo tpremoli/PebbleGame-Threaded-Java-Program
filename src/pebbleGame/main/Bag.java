@@ -46,8 +46,6 @@ public class Bag {
         this.pebbles = new ArrayList<>();
         this.type = BagType.WHITE;
         this.bags = bags;
-
-        // TODO: Create csv file to store bag contents?
     }
 
     /**

@@ -10,12 +10,14 @@ public class Main {
     public static void main(String[] args) {
         //TODO: Add interrupts
         System.out.println(
-                "Welcome to the PebbleGame!!!!!! :D xD \r\n" +
-                "You will be asked to enter the number of players \r\n" +
-                "and then you will be asked for the location of three files containing\r\n" +
-                "integer values separated by commas, to determine the pebble weights \r\n" +
-                "These values must be positive.\r\n" +
-                "The game will then be simulated, and output written to files in this directory\r\n");
+                """
+                Welcome to the PebbleGame!!!!!! :D xD \r
+                You will be asked to enter the number of players \r
+                and then you will be asked for the location of three files containing\r
+                integer values separated by commas, to determine the pebble weights \r
+                These values must be positive.\r
+                The game will then be simulated, and output written to files in this directory\r
+                """);
 
 //      this will ensure the input sequence will keep running until all inputs are valid.
         boolean inputValid = false;
@@ -72,7 +74,7 @@ public class Main {
      * generate 3 white (empty, named A, B, C) and 3 black bags (named X, Y, Z),
      * calls createBlackBag method to load values from a bag file and call the black bag constructor.
      */
-    public static void generateBags() throws PebbleErrors.NotEnoughPebblesInFileException {
+    public static void generateBags() {
         HashMap<Character, Bag> bags = pg.getBags();
 
         Bag a = new Bag('A', bags);

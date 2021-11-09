@@ -130,7 +130,6 @@ public class PebbleGame {
 
             // Creating output file, writing pebbles to it using writeDataToFile()
             this.outputFile = "Player " + playerID + ".txt";
-            //TODO: verify location of output file
         }
 
         /**
@@ -285,7 +284,6 @@ public class PebbleGame {
                 lastBag = bagToDrawFrom;
 
             } catch (IOException | PebbleErrors.IllegalBagTypeException | PebbleErrors.NegativePebbleWeightException e) {
-                //TODO: Handle these exception
                 e.printStackTrace();
             }
 
@@ -306,9 +304,7 @@ public class PebbleGame {
                     if (!isFinished())
                         this.swapRandomPebble();
                 } catch (IOException e) {
-                    //TODO: Handle this IOException
-
-                    e.printStackTrace();
+                   e.printStackTrace();
                 }
 
 
