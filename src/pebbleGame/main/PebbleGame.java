@@ -94,6 +94,11 @@ public class PebbleGame {
         return gameFinished.get();
     }
 
+    /**
+     * Code for ending the game
+     *
+     * @param isExit a boolean to see if the game is to be exited yet.
+     */
     public void finish(boolean isExit) {
         gameFinished.set(true);
 
