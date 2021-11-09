@@ -35,12 +35,12 @@ To run the unit tests from the java files, or to  run the main project from the 
 
 #### To run the main  program
 ```cmd
-java pebbleGame.main.Main
+java -classpath .\src\ pebbleGame.main.Main
 ```
 
 #### To run the program's unit tests
 ```
-java -classpath .\src\;.\lib\junit-4.13.1.jar;.\lib\hamcrest-core-1.3.jar pebbleGame.main.PebbleGameTest
+java -classpath .\src\;.\lib\junit-4.13.1.jar;.\lib\hamcrest-core-1.3.jar org.junit.runner.JUnitCore pebbleGame.test.PebbleGameTest
 ```
 
 It is important that you ensure you are in the root folder of the project in your terminal/commmand prompt for the above to work.
