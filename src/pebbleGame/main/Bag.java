@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,7 +63,7 @@ public class Bag {
     /**
      * Only on BLACK bags - returns a random pebble from the bag.
      */
-    public synchronized int takeRandomPebble() throws PebbleErrors.IllegalBagTypeException {
+    public synchronized int takeRandomPebble() throws PebbleErrors.IllegalBagTypeException, PebbleErrors.NegativePebbleWeightException {
         if (type == BagType.WHITE) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run takeRandomPebble from WHITE bag");
         }
@@ -82,7 +82,7 @@ public class Bag {
 
     public char getCounterpart() throws PebbleErrors.IllegalBagTypeException {
         return switch (bagName) {
-            case 'X' -> 'A';
+            case 'X', 't' -> 'A'; // bag 't' is used in testing
             case 'Y' -> 'B';
             case 'Z' -> 'C';
             case 'A' -> 'X';
@@ -98,7 +98,7 @@ public class Bag {
      *
      * @param b bag to swap content with
      */
-    public synchronized void swapContents(char b) throws PebbleErrors.IllegalBagTypeException {
+    public synchronized void swapContents(char b) throws PebbleErrors.IllegalBagTypeException, PebbleErrors.NegativePebbleWeightException {
         if (type == BagType.WHITE) {
             throw new PebbleErrors.IllegalBagTypeException("Tried to run swapContents from WHITE bag");
         }
@@ -121,7 +121,13 @@ public class Bag {
         return pebbles;
     }
 
-    public void setPebbles(ArrayList<Integer> pebbles) {
+    public void setPebbles(ArrayList<Integer> pebbles) throws PebbleErrors.NegativePebbleWeightException {
+        for (int pebble : pebbles){
+            if (pebble < 0) {
+                throw new PebbleErrors.NegativePebbleWeightException("The pebbbles provided were not formatted " +
+                        "correctly, make sure all pebble sizes are strictly positive");
+            }
+        }
         this.pebbles = pebbles;
     }
 

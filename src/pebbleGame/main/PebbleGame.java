@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 import java.io.*;
 import java.util.*;
@@ -109,7 +109,11 @@ public class PebbleGame {
         }
     }
 
-    class Player extends Thread {
+    public void setLastBag(Bag lastBag) {
+        this.lastBag = lastBag;
+    }
+
+    public class Player extends Thread {
 
         private final int playerID;
         private int[] pebbles;
@@ -145,6 +149,10 @@ public class PebbleGame {
             return bags.get(bagChar);
         }
 
+        public void setPebbles(int[] pebble){
+            this.pebbles = pebble;
+        }
+
         /**
          * @return Returns total pebble weight
          */
@@ -174,7 +182,7 @@ public class PebbleGame {
             int newPebble = 0;
             try {
                 newPebble = newBag.takeRandomPebble();
-            } catch (PebbleErrors.IllegalBagTypeException e) {
+            } catch (PebbleErrors.IllegalBagTypeException | PebbleErrors.NegativePebbleWeightException e) {
                 e.printStackTrace();
             }
 
@@ -252,6 +260,14 @@ public class PebbleGame {
             writePebblesToFile(writer);
         }
 
+        public String getOutputFile() {
+            return outputFile;
+        }
+
+        public int[] getPebbles() {
+            return pebbles;
+        }
+
         @Override
         public void run() {
 
@@ -268,7 +284,7 @@ public class PebbleGame {
 
                 lastBag = bagToDrawFrom;
 
-            } catch (IOException | PebbleErrors.IllegalBagTypeException e) {
+            } catch (IOException | PebbleErrors.IllegalBagTypeException | PebbleErrors.NegativePebbleWeightException e) {
                 //TODO: Handle these exception
                 e.printStackTrace();
             }

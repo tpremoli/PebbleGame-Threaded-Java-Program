@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 public class PebbleErrors {
 
@@ -14,7 +14,7 @@ public class PebbleErrors {
     /**
      * Thrown when the a method is used on a bagType that the method cannot be used on
      */
-    static class IllegalBagTypeException extends Exception{
+    public static class IllegalBagTypeException extends Exception{
         public IllegalBagTypeException(String errorMessage){
             super(errorMessage);
         }
@@ -34,16 +34,6 @@ public class PebbleErrors {
      */
     static class NegativePebbleWeightException extends Exception{
         public NegativePebbleWeightException(String errorMessage){
-            super(errorMessage);
-        }
-    }
-
-    /**
-     * Thrown when a player attempts to draw from an empty bag, player should be asked to draw from another bag with
-     * pebbles in it.
-     */
-    class EmptyBagException extends Exception{
-        public EmptyBagException(String errorMessage){
             super(errorMessage);
         }
     }

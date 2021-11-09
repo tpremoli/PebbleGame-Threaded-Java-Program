@@ -1,4 +1,4 @@
-package pebbleGame;
+package pebbleGame.main;
 
 import java.io.IOException;
 import java.util.*;
@@ -22,40 +22,16 @@ public class Main {
         while (!inputValid) { // Will change for interrupt
             try {
                 System.out.println("Please input number of players:");
+                int playerCount = Integer.parseInt(reader.nextLine());
 
-                pg.setPlayerCount(Integer.parseInt(reader.nextLine()));
-                if (pg.getPlayerCount() < 1)
-                    throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
+                generatePlayers(playerCount);
 
-                generateBags();
-
-                for (int i = 0; i < pg.getPlayerCount(); i++) {
-                    pg.getPlayers().add(pg.new Player(i));
-                }
-
-
-// Testing that bag draws are behaving as expected
-//
-//                FIXME: this doesn't work anymore as draws are done on thread.start()
-//
-//                for (char b:
-//                        new char[]{'A','B','C','X','Y','Z'}) {
-//                    System.out.println(pg.getBags().get(b).getPebbles().toString() + " "
-//                            + pg.getBags().get(b).getPebbles().size());
-//                }
-//
-//                for (int i = 0; i < pg.getPlayerCount(); i++) {
-//                    PebbleGame.Player p = (PebbleGame.Player) pg.getPlayers().get(i);
-//                    System.out.println(Arrays.toString(p.getPebbles()) + " " + p.getPebbles().length);
-//                }
-
-
-//                If we got here without exceptions, leave this loop.
                 inputValid = true;
 
             } catch (NumberFormatException e) {
                 System.out.println("Input not an integer!");
-            } catch (PebbleErrors.IllegalPlayerNumberException | PebbleErrors.IllegalBagTypeException | IOException e) {
+            } catch (PebbleErrors.IllegalPlayerNumberException | PebbleErrors.IllegalBagTypeException |
+                    PebbleErrors.NotEnoughPebblesInFileException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -77,11 +53,26 @@ public class Main {
 
     }
 
+    public static void generatePlayers(int playerCount) throws PebbleErrors.IllegalPlayerNumberException,
+            PebbleErrors.IllegalBagTypeException, IOException, PebbleErrors.NotEnoughPebblesInFileException {
+        pg.setPlayerCount(playerCount);
+
+        if (pg.getPlayerCount() < 1){
+            throw new PebbleErrors.IllegalPlayerNumberException("Number of players must be a positive integer!");
+        }
+
+        generateBags();
+
+        for (int i = 0; i < pg.getPlayerCount(); i++) {
+            pg.getPlayers().add(pg.new Player(i));
+        }
+    }
+
     /**
      * generate 3 white (empty, named A, B, C) and 3 black bags (named X, Y, Z),
      * calls createBlackBag method to load values from a bag file and call the black bag constructor.
      */
-    public static void generateBags() {
+    public static void generateBags() throws PebbleErrors.NotEnoughPebblesInFileException {
         HashMap<Character, Bag> bags = pg.getBags();
 
         Bag a = new Bag('A', bags);
