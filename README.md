@@ -24,11 +24,11 @@ To run the program directly from the Jar file, open the directory containing Peb
 java -jar PebbleGame.jar
 ```
 
-To run the unit tests from the java files or to  run the main project from the raw .class files, navigate to the project's root folder in your systems  terminal/command prompt and run:
+To run the unit tests from the java files or to  run the main project from the raw .class files, navigate to the project's root folder (folder containing /src/, /lib/ etc.) in your systems terminal/command prompt and run:
 
 #### To run the main  program
 ```cmd
-java pebbleGame.main.Main
+java -classpath .\src pebbleGame.main.Main
 ```
 
 #### To run the program's unit tests
