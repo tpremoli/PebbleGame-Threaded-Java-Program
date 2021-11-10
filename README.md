@@ -28,7 +28,7 @@ To run the unit tests from the java files or to  run the main project from the r
 
 #### To run the main  program
 ```cmd
-java pebbleGame.main.Main
+java -classpath .\src pebbleGame.main.Main
 ```
 
 #### To run the program's unit tests
